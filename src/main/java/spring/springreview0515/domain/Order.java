@@ -25,10 +25,11 @@ public class Order {
     @JoinColumn(name = "MEMBER_ID") // Member쪽 객체에서 조인할 컬럼이름
     private Member member;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL) // cascade도 잡아주기
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // cascade도 잡아주기
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // cascade도 잡아주기
+    @JoinColumn(name = "DELIVERY_ID")
     private Delivery delivery;
 
     private LocalDateTime orderDate;
@@ -41,5 +42,22 @@ public class Order {
     // 아래 세 개의 메소드는 연관관계가 잡힌 멤버, 오더아이템, 딜리버리에 잡는다.
     // 연관관계 주인이 아닌쪽은 읽기만 가능하다. 연관관계 주인이 아닌쪽에만 셋하고 값이 왜 안바뀌지..? 하는 오류를 방지하기 위해 편의 메소드를 만든다.
     // 값이 안바뀌는 db에 플러쉬된 상태가 아니라서 jpa가 fk를 모르기 때문
-    // 1. setMember, 2.addOrderItem, 3.setDelivery
+    // 1. setMember, 2.addOrderItem, 3.setDelivery. 양방향 연관관계에서!
+
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.getOrders().add(this); // member쪽 orders에도 추가한 주문 넣어주기
+    }
+
+    // 왜 이건 Order쪽에 정의하지?
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+        delivery.setOrder(this);
+    }
 }

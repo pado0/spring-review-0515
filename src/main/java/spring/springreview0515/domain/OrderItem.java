@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+@Entity
 @Getter
 @Setter
 @Table(name = "ORDER_ITEM")

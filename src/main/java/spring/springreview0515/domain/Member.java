@@ -23,5 +23,4 @@ public class Member {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member") // order쪽 매핑 컬럼명
     private List<Order> orders = new ArrayList<>();
 
-
 }
