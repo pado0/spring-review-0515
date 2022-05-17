@@ -1,7 +1,8 @@
-package spring.springreview0515.domain;
+package spring.springreview0515.domain.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import spring.springreview0515.domain.Category;
 
 import javax.persistence.*;
 import java.util.ArrayList;

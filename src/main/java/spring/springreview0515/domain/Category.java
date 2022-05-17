@@ -2,6 +2,7 @@ package spring.springreview0515.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import spring.springreview0515.domain.item.Item;
 
 import javax.persistence.*;
 import java.util.ArrayList;
