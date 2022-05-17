@@ -3,6 +3,7 @@ package spring.springreview0515.domain.item;
 import lombok.Getter;
 import lombok.Setter;
 import spring.springreview0515.domain.Category;
+import spring.springreview0515.exception.NotEnoughStockException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,4 +26,17 @@ public class Item {
 
     @ManyToMany(mappedBy = "items") // mappedBy 해줘야함
     private List<Category> categories = new ArrayList<>();
+
+    // 엔티티에 비즈니스로직 추가
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    public void removeStock(int quantity) {
+        int restStock = this.stockQuantity - quantity;
+        if(restStock < 0){
+            throw new NotEnoughStockException("need more stock");
+        }
+        this.stockQuantity = restStock;
+    }
 }
